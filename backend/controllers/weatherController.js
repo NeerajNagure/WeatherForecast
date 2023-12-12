@@ -19,7 +19,7 @@ exports.getForecast= async(req,res)=>{
     const forecastData=await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city},${country}&appid=${API_KEY}`);
     const forecastJson=await forecastData.json();
     let newData=forecastJson.list.filter((ele,index)=>{
-        return (index>=8&&(index%8==0));
+        return ((index>=8&&(index%8===0))||index===39);
     });
     let avgTemperature=0;
     newData.map((ele)=>{

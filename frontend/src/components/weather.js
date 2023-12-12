@@ -1,16 +1,20 @@
 import React from "react";
 import { useState } from "react";
-
+import WeatherCard from "./WeatherCard";
+import WeatherForecastCard from "./WeatherForecastCard";
 
 function NewPreferences() {
-    const handleSubmit = async (e) => {
+    const [weatherData,setWeatherData]=useState();
+    const [fivedayWeatherData,set5dayWeatherData]=useState();
+    const [displayWeather,setDisplayWeather]=useState(0);
+        const handleSubmit = async (e) => {
         e.preventDefault();
         const data = JSON.stringify({
             city: credentials.city,
             country: credentials.country,
         });
         try {
-            const response = await fetch("http://localhost:9000/api/auth/report",
+            const response = await fetch("http://localhost:9000/api/report",
                 {   method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -18,12 +22,20 @@ function NewPreferences() {
                     },
                     body: data
                 });
-            const json = await response.json();
-            if (json) {
-                if (json) {
-                    document.write(`Weather in ${json.name}, ${json.sys.country}: ${json.weather[0].main}`);
-                 }
-            }
+
+            const response2= await fetch("http://localhost:9000/api/forecast",
+            {method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: data});
+
+            const json1 = await response.json();
+            const json2=await response2.json();
+            setWeatherData(json1);
+            set5dayWeatherData(json2);
+            setDisplayWeather(1);
         } catch (error) {
             alert(error);
         }
@@ -40,8 +52,8 @@ function NewPreferences() {
     return (
         <>
         <div className="flex justify-center">
-            <div className="flex-col">
-            <p className="text-4xl font-medium ">WeatherForecast</p>
+            <div className="flex-col w-5/12">
+            <p className="text-4xl font-medium text-center mt-6 text-blue-500">WeatherForecast</p>
             <form>
                 <p className="text-xl mt-8">Enter city:</p>
                 <input type="text" placeholder="City" className="my-3 bg-gray-300
@@ -58,8 +70,12 @@ function NewPreferences() {
                     Submit</button>
                  </div>
             </form>
+            {displayWeather===1 &&
+            <WeatherCard weatherData={weatherData}/>}
             </div>
         </div>
+        {displayWeather===1 &&
+            <WeatherForecastCard weatherData={fivedayWeatherData}/>}
         </>
     );
 }

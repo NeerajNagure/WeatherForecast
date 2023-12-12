@@ -11,7 +11,7 @@ app.use(cors()); // Add CORS support
 app.get('/', (req, res) => {
   res.send('Hello');
 });
-app.use('/api/auth', require('./routes/weather'));
+app.use('/api', require('./routes/weather'));
 app.listen(port, () => {
   console.log(`My backend listening on port ${port}`);
 });
