@@ -1,0 +1,6 @@
+
+function WeatherCard(props){
+    return (
+        
+    )
+}

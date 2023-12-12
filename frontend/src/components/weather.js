@@ -3,7 +3,6 @@ import { useState } from "react";
 
 
 function NewPreferences() {
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = JSON.stringify({
