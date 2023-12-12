@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import WeatherCard from "./WeatherCard";
 import WeatherForecastCard from "./WeatherForecastCard";
+const ENDPOINT="https://weather-forecast-api-ikla.onrender.com";
 
 function NewPreferences() {
     const [weatherData,setWeatherData]=useState();
@@ -14,7 +15,7 @@ function NewPreferences() {
             country: credentials.country,
         });
         try {
-            const response = await fetch("http://localhost:9000/api/report",
+            const response = await fetch(ENDPOINT+"/api/report",
                 {   method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -23,7 +24,7 @@ function NewPreferences() {
                     body: data
                 });
 
-            const response2= await fetch("http://localhost:9000/api/forecast",
+            const response2= await fetch(ENDPOINT+"/api/forecast",
             {method: "POST",
             headers: {
                 "Content-Type": "application/json",
